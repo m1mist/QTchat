@@ -25,9 +25,14 @@ public:
     explicit RegisterDialog(QWidget *parent = nullptr);
 
     ~RegisterDialog() override;
-
+private slots:
+    void on_get_auth_button_clicked();
 private:
     Ui::RegisterDialog *ui;
+    void showTip(QString,bool);
+
+
+
 };
 
 

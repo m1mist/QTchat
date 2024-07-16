@@ -2,6 +2,14 @@ QDialog#LoginDialog, #RegisterDialog{
     background-color:rgb(255,255,255);
 }
 
-#user_label, #password_label{
+#user_label, #email_label, #password_label, #confirm_label, #auth_label{
     color:black;
+}
+
+#error_label[state="normal"]{
+    color: green;
+}
+
+#error_label[state="err"]{
+    color: red;
 }

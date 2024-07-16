@@ -32,6 +32,8 @@ add_executable(llfcchat Sources/main.cpp
         Sources/registerdialog.cpp
         Sources/Headers/registerdialog.h
         Sources/Forms/registerdialog.ui
+        Sources/Headers/global.h
+        Sources/global.cpp
 )
 target_link_libraries(llfcchat
         Qt::Core
