@@ -33,7 +33,7 @@ void RegisterDialog::on_get_auth_button_clicked(){
     bool match = regex.match(email).hasMatch();
     if(match){
         //发送http验证码
-        showTip(tr("验证码已发送"), true);
+        //showTip(tr("验证码已发送"), true);
     }else{
         showTip(tr("错误的邮箱地址"), false);
     }

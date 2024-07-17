@@ -12,6 +12,7 @@ find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
+        Network
         REQUIRED)
 
 set(QRC_SOURCE_FILE Resources/rc.qrc)
@@ -34,11 +35,15 @@ add_executable(llfcchat Sources/main.cpp
         Sources/Forms/registerdialog.ui
         Sources/Headers/global.h
         Sources/global.cpp
+        Sources/Headers/singleton.hpp
+        Sources/HttpManager.cpp
+        Sources/Headers/HttpManager.h
 )
 target_link_libraries(llfcchat
         Qt::Core
         Qt::Gui
         Qt::Widgets
+        Qt::Network
 )
 
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
