@@ -1,8 +1,6 @@
 
 #ifndef LLFCCHAT_REGISTERDIALOG_H
 #define LLFCCHAT_REGISTERDIALOG_H
-
-#include <QDialog>
 /**
   ******************************************************************************
   * @file           : registerdialog.h
@@ -12,7 +10,8 @@
   * @date           : 24-7-12
   ******************************************************************************
  **/
-
+#include <QDialog>
+#include "global.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class RegisterDialog; }
@@ -27,10 +26,12 @@ public:
     ~RegisterDialog() override;
 private slots:
     void on_get_auth_button_clicked();
+    void slot_reg_mod_finish(ReqId id, QString str, ErrorCodes err);
 private:
     Ui::RegisterDialog *ui;
     void showTip(QString,bool);
-
+    void initHttpHandlers();
+    QMap<ReqId, std::function<void(const QJsonObject&)>> handlers_;
 
 
 };

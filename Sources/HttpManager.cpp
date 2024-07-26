@@ -11,7 +11,7 @@
 #include "HttpManager.h"
 
 HttpManager::HttpManager() {
-
+    connect(this, &HttpManager::sig_http_finish, this, &HttpManager::slot_http_finish);
 }
 
 HttpManager::~HttpManager() {
@@ -28,5 +28,25 @@ void HttpManager::PostHttpReq(QUrl url, QJsonObject json, ReqId req_id, Modules 
 
     QObject::connect(reply, &QNetworkReply::finished, [self, reply, req_id, mod](){
         //错误处理
+        if(reply->error() != QNetworkReply::NoError){
+            qDebug() << reply->errorString();
+            //发送signal通知完成
+            emit self->sig_http_finish(req_id, "", ErrorCodes::ERROR_NETWORK, mod);
+            reply->deleteLater();
+            return ;
+        }
+
+        QString res = reply->readAll();
+        //发送signal通知完成
+        emit self->sig_http_finish(req_id, res, ErrorCodes::SUCCESS, mod);
+        reply->deleteLater();
+        return;
     });
+}
+
+void HttpManager::slot_http_finish(ReqId id, QString str, ErrorCodes err, Modules mod) {
+    if(mod == Modules::REGISTER){
+        emit sig_reg_mod_finish(id, str, err);
+
+    }
 }

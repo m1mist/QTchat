@@ -13,6 +13,7 @@
 #include "Headers/registerdialog.h"
 #include "Forms/ui_RegisterDialog.h"
 #include "global.h"
+#include "HttpManager.h"
 
 RegisterDialog::RegisterDialog(QWidget *parent) :
         QDialog(parent), ui(new Ui::RegisterDialog) {
@@ -21,6 +22,9 @@ RegisterDialog::RegisterDialog(QWidget *parent) :
     ui->confirm_edit->setEchoMode(QLineEdit::Password);
     ui->error_label->setProperty("state","normal");
     repolish(ui->error_label);
+    connect(HttpManager::getInstance().get(), &HttpManager::sig_reg_mod_finish,
+            this, &RegisterDialog::slot_reg_mod_finish);
+    initHttpHandlers();
 }
 
 RegisterDialog::~RegisterDialog() {
@@ -33,7 +37,7 @@ void RegisterDialog::on_get_auth_button_clicked(){
     bool match = regex.match(email).hasMatch();
     if(match){
         //发送http验证码
-        //showTip(tr("验证码已发送"), true);
+        showTip(tr("验证码已发送"), true);
     }else{
         showTip(tr("错误的邮箱地址"), false);
     }
@@ -50,4 +54,41 @@ void RegisterDialog::showTip(QString str,bool b_ok) {
         ui->error_label->setProperty("state","err");
         repolish(ui->error_label);
     }
+}
+
+void RegisterDialog::slot_reg_mod_finish(ReqId id, QString str, ErrorCodes err) {
+    if(err != ErrorCodes::SUCCESS){
+        showTip(tr("网络请求错误"), false);
+        return;
+    }
+
+    //解析json
+    auto jsonDocument = QJsonDocument::fromJson(str.toUtf8());
+
+    if(jsonDocument.isNull()){
+        showTip(tr("json解析失败"), false);
+        return;
+    }
+    if(jsonDocument.isObject()){
+        showTip(tr("json解析失败"), false);
+        return;
+    }
+
+    handlers_[id](jsonDocument.object());
+    return;
+}
+
+void RegisterDialog::initHttpHandlers() {
+    handlers_.insert(ReqId::ID_GET_AUTH,[this](const QJsonObject& jsonObject){
+        int error = jsonObject["error"].toInt();
+        if(error != ErrorCodes::SUCCESS){
+            showTip(tr("参数错误"), false);
+            return;
+        }
+
+        auto email = jsonObject["email"].toString();
+        showTip(tr("验证码已发送"), true);
+        qDebug() << "email is " << email;
+    });
+
 }
