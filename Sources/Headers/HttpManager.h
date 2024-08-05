@@ -15,7 +15,6 @@
 #include <QUrl>
 #include <QObject>
 #include <QtNetwork/QNetworkAccessManager>
-#include <QJsonObject>
 #include <QJsonDocument>
 #include "global.h"
 
@@ -24,12 +23,12 @@ class HttpManager: public QObject, public Singleton<HttpManager>,
     Q_OBJECT
 public:
     ~HttpManager();
+    void PostHttpReq(QUrl url, QJsonObject json, ReqId req_id, Modules mod);
 
 private:
     friend class Singleton<HttpManager>;
     HttpManager();
     QNetworkAccessManager manager_;
-    void PostHttpReq(QUrl url, QJsonObject json, ReqId req_id, Modules mod);
 
 private slots:
     void slot_http_finish(ReqId id, QString str, ErrorCodes err, Modules mod);

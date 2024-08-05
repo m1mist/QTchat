@@ -37,7 +37,10 @@ void RegisterDialog::on_get_auth_button_clicked(){
     bool match = regex.match(email).hasMatch();
     if(match){
         //发送http验证码
-        showTip(tr("验证码已发送"), true);
+        QJsonObject json_obj;
+        json_obj["email"] = email;
+        HttpManager::getInstance()->PostHttpReq(QUrl(gate_url_prefix+"/verify_code"),
+                                            json_obj, ReqId::ID_GET_AUTH,Modules::REGISTER);
     }else{
         showTip(tr("错误的邮箱地址"), false);
     }
@@ -69,13 +72,12 @@ void RegisterDialog::slot_reg_mod_finish(ReqId id, QString str, ErrorCodes err) 
         showTip(tr("json解析失败"), false);
         return;
     }
-    if(jsonDocument.isObject()){
+    if(!jsonDocument.isObject()){
         showTip(tr("json解析失败"), false);
         return;
     }
 
     handlers_[id](jsonDocument.object());
-    return;
 }
 
 void RegisterDialog::initHttpHandlers() {
@@ -83,6 +85,7 @@ void RegisterDialog::initHttpHandlers() {
         int error = jsonObject["error"].toInt();
         if(error != ErrorCodes::SUCCESS){
             showTip(tr("参数错误"), false);
+            qDebug() << error;
             return;
         }
 

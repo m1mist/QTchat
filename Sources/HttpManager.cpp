@@ -14,9 +14,7 @@ HttpManager::HttpManager() {
     connect(this, &HttpManager::sig_http_finish, this, &HttpManager::slot_http_finish);
 }
 
-HttpManager::~HttpManager() {
-
-}
+HttpManager::~HttpManager() = default;
 
 void HttpManager::PostHttpReq(QUrl url, QJsonObject json, ReqId req_id, Modules mod) {
     QByteArray data = QJsonDocument(json).toJson();
