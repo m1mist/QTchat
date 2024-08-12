@@ -25,8 +25,10 @@ public:
 
     ~RegisterDialog() override;
 private slots:
-    void on_get_auth_button_clicked();
+    void on_get_verify_code_button_clicked();
     void slot_reg_mod_finish(ReqId id, QString str, ErrorCodes err);
+    void on_confirm_button_clicked();
+
 private:
     Ui::RegisterDialog *ui;
     void showTip(QString,bool);

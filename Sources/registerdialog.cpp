@@ -31,7 +31,7 @@ RegisterDialog::~RegisterDialog() {
     delete ui;
 }
 
-void RegisterDialog::on_get_auth_button_clicked(){
+void RegisterDialog::on_get_verify_code_button_clicked(){
     auto email = ui->email_edit->text();
     QRegularExpression regex(R"((\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+)");
     bool match = regex.match(email).hasMatch();
@@ -93,5 +93,28 @@ void RegisterDialog::initHttpHandlers() {
         showTip(tr("验证码已发送"), true);
         qDebug() << "email is " << email;
     });
+    //注册注册用户回包逻辑
+    handlers_.insert(ReqId::ID_REGISTER_USER, [this](QJsonObject jsonObj){
+        int error = jsonObj["error"].toInt();
+        if(error != ErrorCodes::SUCCESS){
+            qDebug()<<error;
+            showTip(tr("参数错误"),false);
+            return;
+        }
+        auto email = jsonObj["email"].toString();
+        showTip(tr("用户注册成功"), true);
+        qDebug()<< "email is " << email ;
+    });
+}
 
+void RegisterDialog::on_confirm_button_clicked() {
+    //发送http请求注册用户
+    QJsonObject json_obj;
+    json_obj["user"] = ui->user_edit->text();
+    json_obj["email"] = ui->email_edit->text();
+    json_obj["passwd"] = ui->password_edit->text();
+    json_obj["confirm"] = ui->confirm_edit->text();
+    json_obj["verifycode"] = ui->verify_edit->text();
+    HttpManager::getInstance()->PostHttpReq(QUrl(gate_url_prefix+"/user_register"),
+                                        json_obj, ReqId::ID_REGISTER_USER,Modules::REGISTER);
 }
