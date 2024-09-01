@@ -10,7 +10,7 @@
 
 // You may need to build the project (run Qt uic code generator) to get "ui_LoginDialog.h" resolved
 
-#include "Headers/logindialog.h"
+#include "logindialog.h"
 #include "Forms/ui_LoginDialog.h"
 
 
