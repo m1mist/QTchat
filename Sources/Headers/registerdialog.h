@@ -34,7 +34,14 @@ private:
     void showTip(QString,bool);
     void initHttpHandlers();
     QMap<ReqId, std::function<void(const QJsonObject&)>> handlers_;
-
+    QMap<TipErr, QString> tip_errs_;
+    void AddTipErr(TipErr, const QString&);
+    void DelTipErr(TipErr);
+    bool checkUserValid();
+    bool checkEmailValid();
+    bool checkPassValid();
+    bool checkConfirmValid();
+    bool checkVerifyValid();
 
 };
 
