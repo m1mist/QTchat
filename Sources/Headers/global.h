@@ -29,6 +29,8 @@
  */
 extern std::function<void(QWidget*)> repolish;
 
+extern std::function<QString(QString)> xor_string;
+
 enum ReqId{
     ID_GET_AUTH = 1001,//获取验证码
     ID_REGISTER_USER = 1002, //注册用户
