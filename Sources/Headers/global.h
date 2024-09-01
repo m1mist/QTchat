@@ -57,4 +57,11 @@ enum TipErr{
 
 extern QString gate_url_prefix;
 
+//一个Label有六种状态，普通状态，普通的悬浮状态，普通的点击状态，选中状态，选中的悬浮状态，选中的点击状态。
+//当Label处于普通状态，被点击后，切换为选中状态，再次点击又切换为普通状态。
+//ClickLbState定义在global.h中，包含两种状态一个是普通状态，一个是选中状态。而Label中的六种状态就是基于这两种状态嵌套实现的。
+enum ClickLbState{
+    Normal = 0,
+    Selected = 1
+};
 #endif //LLFCCHAT_GLOBAL_H

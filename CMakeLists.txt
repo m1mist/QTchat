@@ -40,6 +40,8 @@ add_executable(llfcchat Sources/main.cpp
         Sources/Headers/HttpManager.h
         Sources/timerbutton.cpp
         Sources/Headers/timerbutton.h
+        Sources/ClickedLabel.cpp
+        Sources/Headers/ClickedLabel.h
 )
 target_link_libraries(llfcchat
         Qt::Core

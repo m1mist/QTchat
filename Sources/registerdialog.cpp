@@ -47,6 +47,8 @@ RegisterDialog::RegisterDialog(QWidget *parent) :
     connect(ui->verify_edit, &QLineEdit::editingFinished, this, [this](){
         checkVerifyValid();
     });
+    ui->visibility_pass->setCursor(Qt::PointingHandCursor);
+    ui->visibility_confirm->setCursor(Qt::PointingHandCursor);
 }
 
 RegisterDialog::~RegisterDialog() {
