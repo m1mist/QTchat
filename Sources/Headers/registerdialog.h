@@ -24,25 +24,38 @@ public:
     explicit RegisterDialog(QWidget *parent = nullptr);
 
     ~RegisterDialog() override;
-private slots:
-    void on_get_verify_code_button_clicked();
-    void slot_reg_mod_finish(ReqId id, QString str, ErrorCodes err);
-    void on_confirm_button_clicked();
+
 
 private:
     Ui::RegisterDialog *ui;
     void showTip(QString,bool);
     void initHttpHandlers();
     QMap<ReqId, std::function<void(const QJsonObject&)>> handlers_;
+
+    //提示
     QMap<TipErr, QString> tip_errs_;
     void AddTipErr(TipErr, const QString&);
     void DelTipErr(TipErr);
+
+    //检查可用性
     bool checkUserValid();
     bool checkEmailValid();
     bool checkPassValid();
     bool checkConfirmValid();
     bool checkVerifyValid();
 
+    //注册完成后，自动返回
+    QTimer *timer_;
+    int countdown_;
+    void ChangeToTipPage();
+
+private slots:
+    void on_get_verify_code_button_clicked();
+    void slot_reg_mod_finish(ReqId id, QString str, ErrorCodes err);
+    void on_confirm_button_clicked();
+    void on_return_button_clicked();
+signals:
+    void sigSwitchLogin();
 };
 
 

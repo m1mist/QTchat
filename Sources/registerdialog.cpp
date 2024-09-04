@@ -16,7 +16,7 @@
 #include "HttpManager.h"
 
 RegisterDialog::RegisterDialog(QWidget *parent) :
-        QDialog(parent), ui(new Ui::RegisterDialog) {
+        QDialog(parent), ui(new Ui::RegisterDialog), countdown_(5) {
     ui->setupUi(this);
     ui->password_edit->setEchoMode(QLineEdit::Password);
     ui->confirm_edit->setEchoMode(QLineEdit::Password);
@@ -49,6 +49,42 @@ RegisterDialog::RegisterDialog(QWidget *parent) :
     });
     ui->visibility_pass->setCursor(Qt::PointingHandCursor);
     ui->visibility_confirm->setCursor(Qt::PointingHandCursor);
+    ui->visibility_pass->SetState("invisible","invisible_hover","","visible",
+                                  "visible_hover","");
+    ui->visibility_confirm->SetState("invisible","invisible_hover","","visible",
+                                     "visible_hover","");
+    //连接点击事件
+    connect(ui->visibility_pass, &ClickedLabel::clicked, this, [this]() {
+        auto state = ui->visibility_pass->GetCurState();
+        if(state == ClickLbState::Normal){
+            ui->password_edit->setEchoMode(QLineEdit::Password);
+        }else{
+            ui->password_edit->setEchoMode(QLineEdit::Normal);
+        }
+        qDebug() << "Label was clicked!";
+    });
+
+    connect(ui->visibility_confirm, &ClickedLabel::clicked, this, [this]() {
+        auto state = ui->visibility_confirm->GetCurState();
+        if(state == ClickLbState::Normal){
+            ui->confirm_edit->setEchoMode(QLineEdit::Password);
+        }else{
+            ui->confirm_edit->setEchoMode(QLineEdit::Normal);
+        }
+        qDebug() << "Label was clicked!";
+    });
+
+    timer_ = new QTimer(this);
+    connect(timer_, &QTimer::timeout, [this]{
+        if(countdown_ == 0){
+            timer_->stop();
+            emit sigSwitchLogin();
+            return ;
+        }
+        countdown_--;
+        auto str = QString("注册成功，%1 s后返回登录").arg(countdown_);
+        ui->tip_label->setText(str);
+    });
 }
 
 RegisterDialog::~RegisterDialog() {
@@ -131,6 +167,7 @@ void RegisterDialog::initHttpHandlers() {
         showTip(tr("用户注册成功"), true);
         qDebug() << "user uid is " << jsonObj["uid"].toString();
         qDebug() << "email is " << email ;
+        ChangeToTipPage();
     });
 }
 
@@ -227,4 +264,15 @@ void RegisterDialog::DelTipErr(TipErr tipErr) {
         ui->error_label->clear();
         return;
     }
+}
+
+void RegisterDialog::ChangeToTipPage() {
+    timer_->stop();
+    ui->stackedWidget->setCurrentWidget(ui->page_2);
+    timer_->start(1000);
+}
+
+void RegisterDialog::on_return_button_clicked() {
+    timer_->stop();
+    emit sigSwitchLogin();
 }

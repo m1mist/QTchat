@@ -29,6 +29,7 @@ public:
     ~MainWindow() override;
 public slots:
     void slotSwitchRegister();
+    void slotSwitchLogin();
 private:
     Ui::MainWindow *ui;
     LoginDialog *login_dialog_;
