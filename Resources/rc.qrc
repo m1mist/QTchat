@@ -24,8 +24,8 @@
     <file>res/smile_hover.png</file>
     <file>res/smile_press.png</file>
     <file>res/tipclose.png</file>
-    <file>res/unvisible.png</file>
-    <file>res/unvisible_hover.png</file>
+    <file>res/invisible.png</file>
+    <file>res/invisible_hover.png</file>
     <file>res/visible.png</file>
     <file>res/visible_hover.png</file>
     <file>res/icon.jpeg</file>
