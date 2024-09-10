@@ -42,6 +42,9 @@ add_executable(llfcchat Sources/main.cpp
         Sources/Headers/timerbutton.h
         Sources/ClickedLabel.cpp
         Sources/Headers/ClickedLabel.h
+        Sources/resetdialog.cpp
+        Sources/Headers/resetdialog.h
+        Sources/Forms/resetdialog.ui
 )
 target_link_libraries(llfcchat
         Qt::Core

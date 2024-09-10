@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include "logindialog.h"
 #include "registerdialog.h"
+#include "resetdialog.h"
 /**
   ******************************************************************************
   * @file           : MainWindow.h
@@ -30,10 +31,13 @@ public:
 public slots:
     void slotSwitchRegister();
     void slotSwitchLogin();
+    void slotSwitchReset();
+    void slotSwitchLogin2();
 private:
     Ui::MainWindow *ui;
     LoginDialog *login_dialog_;
     RegisterDialog *register_dialog_;
+    ResetDialog *reset_dialog_;
 };
 
 

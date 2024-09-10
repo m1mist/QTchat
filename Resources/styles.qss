@@ -1,10 +1,3 @@
-QDialog#LoginDialog, #RegisterDialog{
-    background-color:rgb(255,255,255);
-}
-
-#user_label, #email_label, #password_label, #confirm_label, #verify_label,#error_label{
-    color:black;
-}
 
 #error_label[state="normal"]{
     color: green;
@@ -45,4 +38,11 @@ QDialog#LoginDialog, #RegisterDialog{
 
 #visibility_confirm[state='visible_hover']{
    border-image: url(:/res/res/visible_hover.png);
+}
+#forget_label[state='normal'],#forget_label[state='selected']{
+    color:black;
+}
+
+#forget_label[state='hover'], #forget_label[state='selected_hover']{
+    color: rgb(42, 112, 241);
 }

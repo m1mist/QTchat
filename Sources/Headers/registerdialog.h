@@ -5,7 +5,7 @@
   ******************************************************************************
   * @file           : registerdialog.h
   * @author         : 16649
-  * @brief          : None
+  * @brief          : 注册页
   * @attention      : None
   * @date           : 24-7-12
   ******************************************************************************
@@ -54,6 +54,7 @@ private slots:
     void slot_reg_mod_finish(ReqId id, QString str, ErrorCodes err);
     void on_confirm_button_clicked();
     void on_return_button_clicked();
+    void on_cancel_button_clicked();
 signals:
     void sigSwitchLogin();
 };

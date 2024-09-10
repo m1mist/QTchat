@@ -100,7 +100,7 @@ void RegisterDialog::on_get_verify_code_button_clicked(){
         QJsonObject json_obj;
         json_obj["email"] = email;
         HttpManager::getInstance()->PostHttpReq(QUrl(gate_url_prefix+"/verify_code"),
-                                            json_obj, ReqId::ID_GET_AUTH,Modules::REGISTER);
+                                                json_obj, ReqId::ID_GET_VERIFY, Modules::REGISTER);
     }else{
         showTip(tr("错误的邮箱地址"), false);
     }
@@ -141,7 +141,7 @@ void RegisterDialog::slot_reg_mod_finish(ReqId id, QString str, ErrorCodes err) 
 }
 
 void RegisterDialog::initHttpHandlers() {
-    handlers_.insert(ReqId::ID_GET_AUTH,[this](const QJsonObject& jsonObject){
+    handlers_.insert(ReqId::ID_GET_VERIFY, [this](const QJsonObject& jsonObject){
         int error = jsonObject["error"].toInt();
         if(error != ErrorCodes::SUCCESS){
             showTip(tr("参数错误"), false);
@@ -273,6 +273,11 @@ void RegisterDialog::ChangeToTipPage() {
 }
 
 void RegisterDialog::on_return_button_clicked() {
+    timer_->stop();
+    emit sigSwitchLogin();
+}
+
+void RegisterDialog::on_cancel_button_clicked() {
     timer_->stop();
     emit sigSwitchLogin();
 }

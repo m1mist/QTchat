@@ -11,7 +11,7 @@
 #include "ClickedLabel.h"
 
 ClickedLabel::ClickedLabel(QWidget *parent): QLabel(parent), cur_state_(ClickLbState::Normal) {
-
+    this->setCursor(Qt::PointingHandCursor);
 }
 
 void ClickedLabel::mousePressEvent(QMouseEvent *event) {
