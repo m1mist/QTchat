@@ -53,7 +53,8 @@ enum ReqId{
 
 enum Modules{
     REGISTER = 0,
-    RESET    = 1
+    RESET    = 1,
+    LOGIN    = 2,
 };
 
 enum ErrorCodes{

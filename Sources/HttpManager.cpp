@@ -43,8 +43,14 @@ void HttpManager::PostHttpReq(QUrl url, QJsonObject json, ReqId req_id, Modules 
 }
 
 void HttpManager::slot_http_finish(ReqId id, QString str, ErrorCodes err, Modules mod) {
+    //发送信号通知指定模块http响应结束
     if(mod == Modules::REGISTER){
         emit sig_reg_mod_finish(id, str, err);
-
+    }
+    if(mod == Modules::RESET){
+        emit sig_reset_mod_finish(id, str, err);
+    }
+    if(mod == Modules::LOGIN){
+        emit sig_login_mod_finish(id, str, err);
     }
 }

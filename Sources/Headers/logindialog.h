@@ -3,6 +3,7 @@
 #define LLFCCHAT_LOGINDIALOG_H
 
 #include <QDialog>
+#include "global.h"
 /**
   ******************************************************************************
   * @file           : logindialog.h
@@ -28,12 +29,26 @@ public:
 
 private:
     Ui::LoginDialog *ui;
+    void showTip(const QString&,bool);
+    void initHttpHandler();
+    QMap<ReqId, std::function<void(const QJsonObject&)>> handlers_;
+
+    //错误提示
+    QMap<TipErr, QString> tip_errs_;
+    void AddTipErr(TipErr, const QString&);
+    void DelTipErr(TipErr);
+
+    //检测
+    bool checkUserValid();
+    bool checkPassValid();
 
 signals:
     void switchRegister();
     void switchReset();
 private slots:
     void slot_forget_pwd();
+    void on_login_button_clicked();
+    void slot_login_mod_finish(ReqId id, QString res, ErrorCodes err);
 };
 
 
