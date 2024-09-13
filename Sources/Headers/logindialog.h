@@ -31,7 +31,7 @@ private:
     Ui::LoginDialog *ui;
     int uid_;
     QString token_;
-
+    bool enableBtn(bool );
     void showTip(const QString&,bool);
     void initHttpHandlers();
     QMap<ReqId, std::function<void(const QJsonObject&)>> handlers_;
@@ -53,6 +53,7 @@ private slots:
     void slot_forget_pwd();
     void on_login_button_clicked();
     void slot_login_mod_finish(ReqId id, QString res, ErrorCodes err);
+    void slot_tcp_con_finish(bool b_success);
 };
 
 
