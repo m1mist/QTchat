@@ -47,7 +47,7 @@ void MainWindow::slotSwitchRegister() {
     //设置为无边框窗口，使其嵌入主窗口
     register_dialog_->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
 
-    connect(register_dialog_, &RegisterDialog::sigSwitchLogin, this, &MainWindow::slotSwitchLogin);
+    connect(register_dialog_, &RegisterDialog::switchLogin, this, &MainWindow::slotSwitchLogin);
     setCentralWidget(register_dialog_);
     login_dialog_->hide();
     register_dialog_->show();

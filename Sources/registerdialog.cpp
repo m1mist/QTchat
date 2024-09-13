@@ -78,7 +78,7 @@ RegisterDialog::RegisterDialog(QWidget *parent) :
     connect(timer_, &QTimer::timeout, [this]{
         if(countdown_ == 0){
             timer_->stop();
-            emit sigSwitchLogin();
+            emit switchLogin();
             return ;
         }
         countdown_--;
@@ -274,10 +274,10 @@ void RegisterDialog::ChangeToTipPage() {
 
 void RegisterDialog::on_return_button_clicked() {
     timer_->stop();
-    emit sigSwitchLogin();
+    emit switchLogin();
 }
 
 void RegisterDialog::on_cancel_button_clicked() {
     timer_->stop();
-    emit sigSwitchLogin();
+    emit switchLogin();
 }

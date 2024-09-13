@@ -35,7 +35,7 @@ LoginDialog::~LoginDialog() {
     delete ui;
 }
 
-void LoginDialog::initHttpHandler() {
+void LoginDialog::initHttpHandlers() {
     //注册获取登录回包逻辑
     handlers_.insert(ReqId::ID_LOGIN_USER, [this](QJsonObject jsonObj){
         int error = jsonObj["error"].toInt();
@@ -44,8 +44,17 @@ void LoginDialog::initHttpHandler() {
             return;
         }
         auto user = jsonObj["user"].toString();
+
+        ServerInfo si;
+        si.uid = jsonObj["uid"].toInt();
+        si.host = jsonObj["host"].toString();
+        si.port = jsonObj["port"].toString();
+        si.token = jsonObj["token"].toString();
+        uid_ = si.uid;
+        token_ = si.token;
         showTip(tr("登录成功"), true);
         qDebug()<< "user is " << user ;
+        emit sig_connect_tcp(si);
     });
 }
 
@@ -68,7 +77,7 @@ void LoginDialog::on_login_button_clicked() {
     auto pwd = ui->password_edit->text();
     //发送http请求登录
     QJsonObject json_obj;
-    json_obj["user"] = user;
+    json_obj["name"] = user;
     json_obj["passwd"] = xor_string(pwd);
     HttpManager::getInstance()->PostHttpReq(QUrl(gate_url_prefix+"/user_login"),
                                         json_obj, ReqId::ID_LOGIN_USER,Modules::LOGIN);

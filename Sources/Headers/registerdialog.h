@@ -56,7 +56,7 @@ private slots:
     void on_return_button_clicked();
     void on_cancel_button_clicked();
 signals:
-    void sigSwitchLogin();
+    void switchLogin();
 };
 
 

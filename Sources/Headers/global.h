@@ -81,4 +81,11 @@ enum ClickLbState{
     Normal = 0,
     Selected = 1
 };
+
+struct ServerInfo{
+    QString host;
+    QString port;
+    QString token;
+    int uid;
+};
 #endif //LLFCCHAT_GLOBAL_H

@@ -21,6 +21,7 @@ qt_add_resources(${QRC_SOURCE_FILE})
 include_directories(
         ${PROJECT_SOURCE_DIR}/includes
         ${PROJECT_SOURCE_DIR}/Sources/Headers
+        ${PROJECT_SOURCE_DIR}/Sources/Forms
 )
 add_executable(llfcchat Sources/main.cpp
         Sources/logindialog.cpp
@@ -45,6 +46,8 @@ add_executable(llfcchat Sources/main.cpp
         Sources/resetdialog.cpp
         Sources/Headers/resetdialog.h
         Sources/Forms/resetdialog.ui
+        Sources/TcpManager.cpp
+        Sources/Headers/TcpManager.h
 )
 target_link_libraries(llfcchat
         Qt::Core
