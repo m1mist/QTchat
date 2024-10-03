@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-
 set(CMAKE_PREFIX_PATH "E:/Tools/Qt/6.5.3/mingw_64")
 
 find_package(Qt6 COMPONENTS
@@ -48,6 +47,15 @@ add_executable(llfcchat Sources/main.cpp
         Sources/Forms/resetdialog.ui
         Sources/TcpManager.cpp
         Sources/Headers/TcpManager.h
+        Sources/UserManager.cpp
+        Sources/Headers/UserManager.h
+        Sources/chatdialog.cpp
+        Sources/Headers/chatdialog.h
+        Sources/Forms/chatdialog.ui
+        Resources/styles.qss
+        Sources/ClickedButton.cpp
+        Sources/Headers/ClickedButton.h
+
 )
 target_link_libraries(llfcchat
         Qt::Core
