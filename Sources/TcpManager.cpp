@@ -10,6 +10,8 @@
 
 #include "TcpManager.h"
 
+#include "UserManager.h"
+
 TcpManager::TcpManager():
     host_(""), port_(0), b_recv_pending_(false), message_id_(0), message_len_(0){
     QObject::connect(&socket_, &QTcpSocket::connected, [&](){
@@ -46,11 +48,12 @@ TcpManager::TcpManager():
 
             b_recv_pending_ = false;
             // 读取消息体
-            QByteArray messageBody = buffer_.mid(0, message_len_);
-            qDebug() << "receive body msg is " << messageBody ;
+            QByteArray message_body = buffer_.mid(0, message_len_);
+            qDebug() << "receive body msg is " << message_body ;
 
             buffer_ = buffer_.mid(message_len_);
-        };
+            handleMsg(ReqId(message_id_), message_len_, message_body);
+        }
     });
 
        QObject::connect(&socket_, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::errorOccurred), [&](QAbstractSocket::SocketError socketError) {
@@ -64,9 +67,10 @@ TcpManager::TcpManager():
     });
 
     QObject::connect(this, &TcpManager::sig_send_data, this, &TcpManager::slot_send_data);
+    initHandlers();
 }
 
-void TcpManager::slot_tcp_connect(ServerInfo si) {
+void TcpManager::slot_tcp_connect(const ServerInfo& si) {
     qDebug()<< "receive tcp connect signal";
     // 尝试连接到服务器
     qDebug() << "Connecting to server...";
@@ -75,7 +79,7 @@ void TcpManager::slot_tcp_connect(ServerInfo si) {
     socket_.connectToHost(si.host, port_);
 }
 
-void TcpManager::slot_send_data(ReqId reqId, QString data)
+void TcpManager::slot_send_data(ReqId reqId, const QString& data)
 {
     uint16_t id = reqId;
 
@@ -101,5 +105,48 @@ void TcpManager::slot_send_data(ReqId reqId, QString data)
     // 发送数据
     socket_.write(block);
 }
+
+void TcpManager::initHandlers() {
+    handlers_.insert(ReqId::ID_CHAT_LOGIN_RSP, [this](ReqId id, int len, const QByteArray& data){
+        Q_UNUSED(len)
+        qDebug()<< "handle id is "<< id << " data is " << data;
+
+        QJsonDocument json_doc = QJsonDocument::fromJson(data);
+
+        if(json_doc.isNull()){
+            qDebug() << "Failed to create QJsonDocument.";
+            return;
+        }
+
+        QJsonObject json_obj = json_doc.object();
+        if(!json_obj.contains("error")){
+            int err = ErrorCodes::ERROR_JSON;
+            qDebug() << "Login Failed, error: Json Parse Error" << err ;
+            emit sig_login_failed(err);
+            return;
+        }
+
+        int err = json_obj["error"].toInt();
+        if(err != ErrorCodes::SUCCESS){
+            qDebug() << "Login Failed, error: " << err ;
+            emit sig_login_failed(err);
+            return;
+        }
+    UserManager::GetInstance()->SetUid(json_obj["uid"].toInt());
+    UserManager::GetInstance()->SetName(json_obj["name"].toString());
+    UserManager::GetInstance()->SetToken(json_obj["token"].toString());
+    emit sig_switch_chatdialog();
+    });
+}
+
+void TcpManager::handleMsg(ReqId id, int len, QByteArray data) {
+    auto it = handlers_.find(id);
+    if (it == handlers_.end()){
+        qDebug() << "handle error: not found id[" << id << "]" << "!\n";
+    }
+    it.value()(id, len, std::move(data));
+}
+
+
 
 
