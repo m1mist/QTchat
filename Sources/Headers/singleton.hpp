@@ -25,7 +25,7 @@ protected:
     static shared_ptr<T> instance_;
 
 public:
-    static shared_ptr<T> getInstance(){
+    static shared_ptr<T> GetInstance(){
         static once_flag s_flag;
         call_once(s_flag,[&](){
             instance_ = shared_ptr<T>(new T);
