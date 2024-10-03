@@ -22,7 +22,7 @@ RegisterDialog::RegisterDialog(QWidget *parent) :
     ui->confirm_edit->setEchoMode(QLineEdit::Password);
     ui->error_label->setProperty("state","normal");
     repolish(ui->error_label);
-    connect(HttpManager::getInstance().get(), &HttpManager::sig_reg_mod_finish,
+    connect(HttpManager::GetInstance().get(), &HttpManager::sig_reg_mod_finish,
             this, &RegisterDialog::slot_reg_mod_finish);
     initHttpHandlers();
     //设定输入框输入后清空字符串
@@ -99,7 +99,7 @@ void RegisterDialog::on_get_verify_code_button_clicked(){
         //发送http验证码
         QJsonObject json_obj;
         json_obj["email"] = email;
-        HttpManager::getInstance()->PostHttpReq(QUrl(gate_url_prefix+"/verify_code"),
+        HttpManager::GetInstance()->PostHttpReq(QUrl(gate_url_prefix+"/verify_code"),
                                                 json_obj, ReqId::ID_GET_VERIFY, Modules::REGISTER);
     }else{
         showTip(tr("错误的邮箱地址"), false);
@@ -179,7 +179,7 @@ void RegisterDialog::on_confirm_button_clicked() {
     json_obj["passwd"] = xor_string(ui->password_edit->text());
     json_obj["confirm"] = xor_string(ui->confirm_edit->text());
     json_obj["verifycode"] = ui->verify_edit->text();
-    HttpManager::getInstance()->PostHttpReq(QUrl(gate_url_prefix+"/user_register"),
+    HttpManager::GetInstance()->PostHttpReq(QUrl(gate_url_prefix+"/user_register"),
                                         json_obj, ReqId::ID_REGISTER_USER,Modules::REGISTER);
 }
 
