@@ -18,12 +18,13 @@
 #include <QRegularExpression>
 #include <QByteArray>
 #include <QNetworkReply>
+#include <QJsonDocument>
 
 #include <memory>
 #include <iostream>
 #include <mutex>
 #include <functional>
-
+#include <utility>
 /**
  * @brief repolish 用于刷新qss
  */
