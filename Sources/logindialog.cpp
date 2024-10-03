@@ -27,13 +27,14 @@ LoginDialog::LoginDialog(QWidget *parent) :
             this, &LoginDialog::slot_forget_pwd);
     initHttpHandlers();
     //连接登录回包信号
-    connect(HttpManager::getInstance().get(), &HttpManager::sig_login_mod_finish, this,
+    connect(HttpManager::GetInstance().get(), &HttpManager::sig_login_mod_finish, this,
             &LoginDialog::slot_login_mod_finish);
     //连接tcp连接请求的信号和槽函数
-    connect(this, &LoginDialog::sig_connect_tcp, TcpManager::getInstance().get(), &TcpManager::slot_tcp_connect);
+    connect(this, &LoginDialog::sig_connect_tcp, TcpManager::GetInstance().get(), &TcpManager::slot_tcp_connect);
     //连接tcp管理者发出的连接成功信号
-    connect(TcpManager::getInstance().get(), &TcpManager::sig_con_success, this, &LoginDialog::slot_tcp_con_finish);
-
+    connect(TcpManager::GetInstance().get(), &TcpManager::sig_con_success, this, &LoginDialog::slot_tcp_con_finish);
+    //连接tcp失败
+    connect(TcpManager::GetInstance().get(),&TcpManager::sig_login_failed, this, &LoginDialog::slot_login_failed);
 }
 
 LoginDialog::~LoginDialog() {
@@ -86,7 +87,7 @@ void LoginDialog::on_login_button_clicked() {
     QJsonObject json_obj;
     json_obj["name"] = user;
     json_obj["passwd"] = xor_string(pwd);
-    HttpManager::getInstance()->PostHttpReq(QUrl(gate_url_prefix+"/user_login"),
+    HttpManager::GetInstance()->PostHttpReq(QUrl(gate_url_prefix+"/user_login"),
                                         json_obj, ReqId::ID_LOGIN_USER,Modules::LOGIN);
 }
 
@@ -168,13 +169,19 @@ void LoginDialog::slot_tcp_con_finish(bool b_success) {
         QString jsonString = doc.toJson(QJsonDocument::Indented);
 
         //发送tcp请求给chat server
-        TcpManager::getInstance()->sig_send_data(ReqId::ID_CHAT_LOGIN, jsonString);
+        emit TcpManager::GetInstance()->sig_send_data(ReqId::ID_CHAT_LOGIN, jsonString);
 
     }else{
         showTip(tr("网络异常"),false);
         enableBtn(true);
     }
 
+}
+
+void LoginDialog::slot_login_failed(int err) {
+    QString result = QString("登录失败, err is %1").arg(err);
+    showTip(result,false);
+    enableBtn(true);
 }
 
 bool LoginDialog::enableBtn(bool) {
