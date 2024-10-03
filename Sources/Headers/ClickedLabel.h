@@ -18,7 +18,7 @@ class ClickedLabel: public QLabel{
     Q_OBJECT
 public:
     explicit ClickedLabel(QWidget *parent = nullptr);
-    virtual void mousePressEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
     void enterEvent(QEnterEvent *event) override;
     void leaveEvent(QEvent *event) override;
     void SetState(QString normal="", QString hover="", QString press="",
@@ -37,7 +37,7 @@ private:
 
     ClickLbState cur_state_;
 signals:
-    void clicked(void);
+    void clicked();
 };
 
 
