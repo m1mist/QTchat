@@ -3,6 +3,8 @@
 #define LLFCCHAT_MAINWINDOW_H
 
 #include <QMainWindow>
+
+#include "chatdialog.h"
 #include "logindialog.h"
 #include "registerdialog.h"
 #include "resetdialog.h"
@@ -33,11 +35,13 @@ public slots:
     void slotSwitchLogin();
     void slotSwitchReset();
     void slotSwitchLogin2();
+    void slotSwitchChat();
 private:
     Ui::MainWindow *ui;
     LoginDialog *login_dialog_;
     RegisterDialog *register_dialog_;
     ResetDialog *reset_dialog_;
+    ChatDialog  *chat_dialog_;
 };
 
 
