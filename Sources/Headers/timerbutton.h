@@ -16,9 +16,9 @@
 class timerbutton: public QPushButton{
 public:
     timerbutton(QWidget *parent = nullptr);
-    ~timerbutton();
+    ~timerbutton() override;
 
-    virtual void mouseReleaseEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
 private:
     QTimer *timer_;
     int counter_;

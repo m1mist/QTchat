@@ -180,16 +180,16 @@ void RegisterDialog::on_confirm_button_clicked() {
     json_obj["confirm"] = xor_string(ui->confirm_edit->text());
     json_obj["verifycode"] = ui->verify_edit->text();
     HttpManager::GetInstance()->PostHttpReq(QUrl(gate_url_prefix+"/user_register"),
-                                        json_obj, ReqId::ID_REGISTER_USER,Modules::REGISTER);
+                                        json_obj, ID_REGISTER_USER,REGISTER);
 }
 
 bool RegisterDialog::checkUserValid() {
     if(ui->user_edit->text() == ""){
-        AddTipErr(TipErr::TIP_USER_ERR, tr("用户名不能为空"));
+        AddTipErr(TIP_USER_ERR, tr("用户名不能为空"));
         return false;
     }
 
-    DelTipErr(TipErr::TIP_USER_ERR);
+    DelTipErr(TIP_USER_ERR);
     return true;
 }
 
@@ -201,11 +201,11 @@ bool RegisterDialog::checkEmailValid() {
     bool match = regex.match(email).hasMatch(); // 执行正则表达式匹配
     if(!match){
         //提示邮箱不正确
-        AddTipErr(TipErr::TIP_EMAIL_ERR, tr("邮箱地址不正确"));
+        AddTipErr(TIP_EMAIL_ERR, tr("邮箱地址不正确"));
         return false;
     }
 
-    DelTipErr(TipErr::TIP_EMAIL_ERR);
+    DelTipErr(TIP_EMAIL_ERR);
     return true;
 }
 
@@ -214,7 +214,7 @@ bool RegisterDialog::checkPassValid() {
 
     if(pass.length() < 6 || pass.length()>15){
         //提示长度不准确
-        AddTipErr(TipErr::TIP_PWD_ERR, tr("密码长度应为6~15"));
+        AddTipErr(TIP_PWD_ERR, tr("密码长度应为6~15"));
         return false;
     }
 
@@ -225,31 +225,31 @@ bool RegisterDialog::checkPassValid() {
     bool match = regExp.match(pass).hasMatch();
     if(!match){
         //提示字符非法
-        AddTipErr(TipErr::TIP_PWD_ERR, tr("不能包含非法字符"));
-        return false;;
+        AddTipErr(TIP_PWD_ERR, tr("不能包含非法字符"));
+        return false;
     }
-    DelTipErr(TipErr::TIP_PWD_ERR);
+    DelTipErr(TIP_PWD_ERR);
     return true;
 }
 
 bool RegisterDialog::checkConfirmValid() {
     auto confirm = ui->confirm_edit->text();
     if (confirm != ui->password_edit->text()){
-        AddTipErr(TipErr::TIP_CONFIRM_ERR, tr("两次输入的密码不同"));
+        AddTipErr(TIP_CONFIRM_ERR, tr("两次输入的密码不同"));
         return false;
     }
-    DelTipErr(TipErr::TIP_CONFIRM_ERR);
+    DelTipErr(TIP_CONFIRM_ERR);
     return true;
 }
 
 bool RegisterDialog::checkVerifyValid() {
     auto pass = ui->verify_edit->text();
     if(pass.isEmpty()){
-        AddTipErr(TipErr::TIP_VARIFY_ERR, tr("验证码不能为空"));
+        AddTipErr(TIP_VARIFY_ERR, tr("验证码不能为空"));
         return false;
     }
 
-    DelTipErr(TipErr::TIP_VARIFY_ERR);
+    DelTipErr(TIP_VARIFY_ERR);
     return true;
 }
 
@@ -262,7 +262,6 @@ void RegisterDialog::DelTipErr(TipErr tipErr) {
     tip_errs_.remove(tipErr);
     if (tip_errs_.empty()){
         ui->error_label->clear();
-        return;
     }
 }
 

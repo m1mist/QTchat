@@ -71,12 +71,12 @@ void ResetDialog::on_get_verify_code_button_clicked()
     QJsonObject json_obj;
     json_obj["email"] = email;
     HttpManager::GetInstance()->PostHttpReq(QUrl(gate_url_prefix+"/verify_code"),
-                                            json_obj, ReqId::ID_GET_VERIFY, Modules::RESET);
+                                            json_obj, ID_GET_VERIFY, RESET);
 }
 
 void ResetDialog::slot_reset_mod_finish(ReqId id, QString res, ErrorCodes err)
 {
-    if(err != ErrorCodes::SUCCESS){
+    if(err != SUCCESS){
         showTip(tr("网络请求错误"),false);
         return;
     }
@@ -105,11 +105,11 @@ void ResetDialog::slot_reset_mod_finish(ReqId id, QString res, ErrorCodes err)
 bool ResetDialog::checkUserValid()
 {
     if(ui->user_edit->text() == ""){
-        AddTipErr(TipErr::TIP_USER_ERR, tr("用户名不能为空"));
+        AddTipErr(TIP_USER_ERR, tr("用户名不能为空"));
         return false;
     }
 
-    DelTipErr(TipErr::TIP_USER_ERR);
+    DelTipErr(TIP_USER_ERR);
     return true;
 }
 
@@ -120,7 +120,7 @@ bool ResetDialog::checkPassValid()
 
     if(pass.length() < 6 || pass.length()>15){
         //提示长度不准确
-        AddTipErr(TipErr::TIP_PWD_ERR, tr("密码长度应为6~15"));
+        AddTipErr(TIP_PWD_ERR, tr("密码长度应为6~15"));
         return false;
     }
 
@@ -131,11 +131,11 @@ bool ResetDialog::checkPassValid()
     bool match = regExp.match(pass).hasMatch();
     if(!match){
         //提示字符非法
-        AddTipErr(TipErr::TIP_PWD_ERR, tr("不能包含非法字符"));
+        AddTipErr(TIP_PWD_ERR, tr("不能包含非法字符"));
         return false;;
     }
 
-    DelTipErr(TipErr::TIP_PWD_ERR);
+    DelTipErr(TIP_PWD_ERR);
 
     return true;
 }
@@ -151,11 +151,11 @@ bool ResetDialog::checkEmailValid()
     bool match = regex.match(email).hasMatch(); // 执行正则表达式匹配
     if(!match){
         //提示邮箱不正确
-        AddTipErr(TipErr::TIP_EMAIL_ERR, tr("邮箱地址不正确"));
+        AddTipErr(TIP_EMAIL_ERR, tr("邮箱地址不正确"));
         return false;
     }
 
-    DelTipErr(TipErr::TIP_EMAIL_ERR);
+    DelTipErr(TIP_EMAIL_ERR);
     return true;
 }
 
@@ -163,11 +163,11 @@ bool ResetDialog::checkVerifyValid()
 {
     auto pass = ui->verify_edit->text();
     if(pass.isEmpty()){
-        AddTipErr(TipErr::TIP_VARIFY_ERR, tr("验证码不能为空"));
+        AddTipErr(TIP_VARIFY_ERR, tr("验证码不能为空"));
         return false;
     }
 
-    DelTipErr(TipErr::TIP_VARIFY_ERR);
+    DelTipErr(TIP_VARIFY_ERR);
     return true;
 }
 
@@ -191,9 +191,9 @@ void ResetDialog::DelTipErr(TipErr te)
 void ResetDialog::initHandlers()
 {
     //注册获取验证码回包逻辑
-    _handlers.insert(ReqId::ID_GET_VERIFY, [this](QJsonObject jsonObj){
+    _handlers.insert(ID_GET_VERIFY, [this](QJsonObject jsonObj){
         int error = jsonObj["error"].toInt();
-        if(error != ErrorCodes::SUCCESS){
+        if(error != SUCCESS){
             showTip(tr("参数错误"),false);
             return;
         }
@@ -203,9 +203,9 @@ void ResetDialog::initHandlers()
     });
 
     //注册注册用户回包逻辑
-    _handlers.insert(ReqId::ID_RESET_PWD, [this](QJsonObject jsonObj){
+    _handlers.insert(ID_RESET_PWD, [this](QJsonObject jsonObj){
         int error = jsonObj["error"].toInt();
-        if(error != ErrorCodes::SUCCESS){
+        if(error != SUCCESS){
             showTip(tr("参数错误"),false);
             return;
         }
@@ -258,5 +258,5 @@ void ResetDialog::on_confirm_button_clicked()
     json_obj["passwd"] = xor_string(ui->password_edit->text());
     json_obj["verifycode"] = ui->verify_edit->text();
     HttpManager::GetInstance()->PostHttpReq(QUrl(gate_url_prefix+"/reset_pwd"),
-                                        json_obj, ReqId::ID_RESET_PWD,Modules::RESET);
+                                        json_obj, ID_RESET_PWD,RESET);
 }
