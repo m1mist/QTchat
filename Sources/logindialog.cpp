@@ -105,7 +105,7 @@ bool LoginDialog::checkPassValid() {
 
     if(pass.length() < 6 || pass.length()>15){
         //提示长度不准确
-        AddTipErr(TipErr::TIP_PWD_ERR, tr("密码长度应为6~15"));
+        AddTipErr(TIP_PWD_ERR, tr("密码长度应为6~15"));
         return false;
     }
     return true;
