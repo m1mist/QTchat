@@ -64,13 +64,28 @@ enum ErrorCodes{
     ERROR_NETWORK = 2,//网络错误
 };
 enum TipErr{
-    TIP_SUCCESS = 0,
-    TIP_EMAIL_ERR = 1,
-    TIP_PWD_ERR = 2,
-    TIP_CONFIRM_ERR = 3,
-    TIP_PWD_CONFIRM = 4,
-    TIP_VARIFY_ERR = 5,
-    TIP_USER_ERR = 6
+    TIP_SUCCESS = 0,    //成功
+    TIP_EMAIL_ERR = 1,  //邮箱错误
+    TIP_PWD_ERR = 2,    //密码错误
+    TIP_CONFIRM_ERR = 3,//确认密码错误
+    TIP_PWD_CONFIRM = 4,//
+    TIP_VARIFY_ERR = 5, //验证码错误
+    TIP_USER_ERR = 6    //用户名错误
+};
+
+enum ChatUiMode {
+    SEARCH,     //搜索
+    CHAT,       //聊天
+    CONTACTS,   //联系人
+};
+
+enum ListItemType {
+    CHAT_ITEM,
+    CONTACTS_ITEM,
+    SEARCH_RESULT_ITEM,
+    ADD_USER_TIP_ITEM,
+    INVALID_ITEM,
+    GROUP_TIP_ITEM
 };
 
 extern QString gate_url_prefix;
