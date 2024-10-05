@@ -62,3 +62,83 @@
 #button_plus[state='press']{
     border-image: url(:/res/res/add_friend_hover.png);
 }
+
+#widget_search{
+     background-color:rgb(247,247,247);
+}
+
+#edit_search {
+    border: 2px solid #f1f1f1;
+}
+
+#widget_chat_user{
+    background-color:rgb(0,0,0);
+}
+
+#list_chat_user{
+    background-color:rgb(247,247,247);
+    border:none;
+}
+
+#list_chat_user::item:selected {
+    background-color: #d3d7d4;
+    border: none;
+    outline: none;
+}
+
+#list_chat_user::item:hover {
+    background-color: rgb(206,207,208);
+    border: none;
+    outline: none;
+}
+
+#list_chat_user::focus {
+    border: none;
+    outline: none;
+}
+
+#WidgetChatUser {
+    background-color:rgb(247,247,247);
+    border: none;
+}
+
+#label_chat{
+    color:rgb(153,153,153);
+    font-size: 12px;
+    font-family: "Microsoft YaHei";
+}
+
+#label_user{
+    color:rgb(0,0,0);
+    font-size: 14px;
+    font-weight: normal;
+    font-family: "Microsoft YaHei";
+}
+
+#widget_time #label_time{
+   color:rgb(140,140,140);
+   font-size: 12px;
+   font-family: "Microsoft YaHei";
+}
+
+QScrollBar:vertical {
+    background: transparent; /* 将轨道背景设置为透明 */
+    width: 8px; /* 滚动条宽度，根据需要调整 */
+    margin: 0px; /* 移除滚动条与滑块之间的间距 */
+}
+
+QScrollBar::handle:vertical {
+    background: rgb(173,170,169); /* 滑块颜色 */
+    min-height: 10px; /* 滑块最小高度，根据需要调整 */
+    border-radius: 4px; /* 滑块边缘圆角，调整以形成椭圆形状 */
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px; /* 移除上下按钮 */
+    border: none; /* 移除边框 */
+    background: transparent; /* 背景透明 */
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none; /* 页面滚动部分背景透明 */
+}
