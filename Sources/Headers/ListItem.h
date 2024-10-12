@@ -20,7 +20,8 @@ public:
     void SetItemType(ListItemType type);
 
     ListItemType GetItemType();
-
+protected:
+    void paintEvent(QPaintEvent *event) override;
 private:
     ListItemType type_;
 

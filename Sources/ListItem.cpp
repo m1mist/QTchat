@@ -10,7 +10,10 @@
 
 #include "Headers/ListItem.h"
 
-ListItem::ListItem(QWidget *parent):QWidget(parent) {
+#include <QPainter>
+#include <QStyleOption>
+
+ListItem::ListItem(QWidget *parent): QWidget(parent), type_() {
 }
 
 void ListItem::SetItemType(ListItemType type) {
@@ -19,4 +22,11 @@ void ListItem::SetItemType(ListItemType type) {
 
 ListItemType ListItem::GetItemType() {
     return  type_;
+}
+
+void ListItem::paintEvent(QPaintEvent *event) {
+    QStyleOption opt;
+    opt.initFrom(this);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
