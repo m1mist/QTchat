@@ -10,16 +10,17 @@
 
 #ifndef LLFCCHAT_HTTPMANAGER_H
 #define LLFCCHAT_HTTPMANAGER_H
-#include "singleton.hpp"
+#include <QJsonDocument>
+#include <QObject>
 #include <QString>
 #include <QUrl>
-#include <QObject>
 #include <QtNetwork/QNetworkAccessManager>
-#include <QJsonDocument>
+
 #include "global.h"
+#include "singleton.hpp"
 
 class HttpManager: public QObject, public Singleton<HttpManager>,
-        public std::enable_shared_from_this<HttpManager>{
+                   public std::enable_shared_from_this<HttpManager>{
     Q_OBJECT
 public:
     ~HttpManager();

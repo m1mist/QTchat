@@ -2,7 +2,7 @@
 #ifndef LLFCCHAT_LOGINDIALOG_H
 #define LLFCCHAT_LOGINDIALOG_H
 
-#include <QDialog>
+#include "QDialog"
 #include "global.h"
 /**
   ******************************************************************************

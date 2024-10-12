@@ -10,20 +10,20 @@
 
 #ifndef LLFCCHAT_GLOBAL_H
 #define LLFCCHAT_GLOBAL_H
-#include <QWidget>
-#include <QJsonObject>
-#include <QSettings>
-#include <QDir>
-#include "QStyle"
-#include <QRegularExpression>
 #include <QByteArray>
-#include <QNetworkReply>
+#include <QDir>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QNetworkReply>
+#include <QRegularExpression>
+#include <QSettings>
+#include <QStyle>
+#include <QWidget>
 
-#include <memory>
-#include <iostream>
-#include <mutex>
 #include <functional>
+#include <iostream>
+#include <memory>
+#include <mutex>
 #include <utility>
 /**
  * @brief repolish 用于刷新qss
@@ -88,6 +88,12 @@ enum ListItemType {
     GROUP_TIP_ITEM
 };
 
+enum class ChatRole
+{
+
+    Self,
+    Other
+};
 extern QString gate_url_prefix;
 
 //一个Label有六种状态，普通状态，普通的悬浮状态，普通的点击状态，选中状态，选中的悬浮状态，选中的点击状态。

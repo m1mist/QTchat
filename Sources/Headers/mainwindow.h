@@ -2,7 +2,7 @@
 #ifndef LLFCCHAT_MAINWINDOW_H
 #define LLFCCHAT_MAINWINDOW_H
 
-#include <QMainWindow>
+#include "QMainWindow"
 
 #include "chatdialog.h"
 #include "logindialog.h"

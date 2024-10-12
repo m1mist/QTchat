@@ -11,6 +11,8 @@
 // You may need to build the project (run Qt uic code generator) to get "ui_mainwindow.h" resolved
 
 #include "Headers/mainwindow.h"
+
+#include "TcpManager.h"
 #include "Forms/ui_mainwindow.h"
 
 
@@ -27,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //连接登录界面忘记密码信号
     connect(login_dialog_, &LoginDialog::switchReset, this, &MainWindow::slotSwitchReset);
+    connect(TcpManager::GetInstance().get(),&TcpManager::sig_switch_chatdialog,this,&MainWindow::slotSwitchChat);
+    //TODO:完成聊天界面
+    emit TcpManager::GetInstance()->sig_switch_chatdialog();
 }
 
 MainWindow::~MainWindow() {
@@ -92,4 +97,14 @@ void MainWindow::slotSwitchLogin2() {
     connect(login_dialog_, &LoginDialog::switchReset, this, &MainWindow::slotSwitchReset);
     //连接登录界面注册信号
     connect(login_dialog_, &LoginDialog::switchRegister, this, &MainWindow::slotSwitchRegister);
+}
+
+void MainWindow::slotSwitchChat() {
+    chat_dialog_ = new ChatDialog();
+    chat_dialog_->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
+    setCentralWidget(chat_dialog_);
+    chat_dialog_->show();
+    login_dialog_->hide();
+    this->setMinimumSize(QSize(1050,900));
+    this->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
 }

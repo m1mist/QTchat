@@ -55,6 +55,30 @@ add_executable(llfcchat Sources/main.cpp
         Resources/styles.qss
         Sources/ClickedButton.cpp
         Sources/Headers/ClickedButton.h
+        Sources/myedit.cpp
+        Sources/Headers/myedit.h
+        Sources/Forms/myedit.ui
+        Sources/ChatUserList.cpp
+        Sources/Headers/ChatUserList.h
+        Sources/widgetchatuser.cpp
+        Sources/Headers/widgetchatuser.h
+        Sources/Forms/widgetchatuser.ui
+        Sources/ListItem.cpp
+        Sources/Headers/ListItem.h
+        Sources/loadingdialog.cpp
+        Sources/Headers/loadingdialog.h
+        Sources/Forms/loadingdialog.ui
+        Sources/chatpage.cpp
+        Sources/Headers/chatpage.h
+        Sources/Forms/chatpage.ui
+        Sources/ChatView.cpp
+        Sources/Headers/ChatView.h
+        Sources/ChatItem.cpp
+        Sources/Headers/ChatItem.h
+        Sources/Bubble.cpp
+        Sources/Headers/Bubble.h
+        Sources/MessageTextEdit.cpp
+        Sources/Headers/MessageTextEdit.h
 
 )
 target_link_libraries(llfcchat

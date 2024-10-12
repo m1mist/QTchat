@@ -13,9 +13,12 @@
 #include <QPushButton>
 #include <QTimer>
 
+/**
+ *
+ */
 class timerbutton: public QPushButton{
 public:
-    timerbutton(QWidget *parent = nullptr);
+    explicit timerbutton(QWidget *parent = nullptr);
     ~timerbutton() override;
 
     void mouseReleaseEvent(QMouseEvent *e) override;
