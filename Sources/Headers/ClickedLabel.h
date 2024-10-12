@@ -12,6 +12,7 @@
 #define LLFCCHAT_CLICKEDLABEL_H
 
 #include <QLabel>
+
 #include "global.h" //ClickLbState
 
 class ClickedLabel: public QLabel{
@@ -19,6 +20,7 @@ class ClickedLabel: public QLabel{
 public:
     explicit ClickedLabel(QWidget *parent = nullptr);
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     void enterEvent(QEnterEvent *event) override;
     void leaveEvent(QEvent *event) override;
     void SetState(QString normal="", QString hover="", QString press="",
