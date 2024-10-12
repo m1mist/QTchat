@@ -10,11 +10,11 @@
 
 #ifndef CHATUSERLIST_H
 #define CHATUSERLIST_H
-#include <QListWidget>
-#include <QWheelEvent>
-#include <QEvent>
-#include <QScrollBar>
 #include <QDebug>
+#include <QEvent>
+#include <QListWidget>
+#include <QScrollBar>
+#include <QWheelEvent>
 
 
 class ChatUserList:public QListWidget {
@@ -25,6 +25,7 @@ public:
 protected:
     //滚动条
     bool eventFilter(QObject *watched, QEvent *event) override;
+public slots:
 
 signals:
     void sig_load_chat_user();
